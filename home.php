@@ -33,7 +33,8 @@
     </div>
 	
    <div class="container">
-                    
+   <div class="main">
+        <div class="content">       
         <div class="tableview">
         <table class="table" style="position:relative; left:40px; top:20px;">
             <tr>
@@ -94,9 +95,9 @@
             <?php // } ?>
         </table>
     </div>
-	<div class="main">
-	<div class="content">
-                    
+    </div>
+    </div>
+
         <form class="form" action="" method="post" style="position:relative; top:15px; ">
             <h2 style="text-transform: capitalize; color:black;">Payment Details</h2><br>
             <div class="form-group">
@@ -112,18 +113,17 @@
                 <input class="form-control" type="text" name="price" size="50" value="" placeholder="Due" required><br>
                 
                 <label>Payment Status</label>
-				<select class="form-control" type="text" name="price" value="" required><br>
+				<select class="form-control" type="text" name="price" value="" required><br/>
 				<option value="select">Please Select</option>
                 <option value="cash">Cash</option>
 				<option value="cheque">Cheque</option>
-				<select/>
+				</select>
             </div>
 			<a href="product-add?id=<?php //echo $product ['product_code'];?>">
                         <button class="table button" id="update">Print Invoice</button></a>
         </form>
     </div>
-	</div>
-	</div>
+
 
     <script>
     function myFunction() {

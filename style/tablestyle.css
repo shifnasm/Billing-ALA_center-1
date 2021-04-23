@@ -15,7 +15,7 @@
 
 .tableview{
     display: inline-block;
-    float: left;
+    /*float: left;*/
     margin-left: 5px;
     width: 100%;
 }
@@ -100,7 +100,7 @@ td{
 	
   .tableview{
   display: inline-block;
-  float: left;
+  /*float: left;*/
   margin-left: 0px;
   width: 100%;
   }
