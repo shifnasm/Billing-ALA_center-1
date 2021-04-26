@@ -1,9 +1,11 @@
+<?php  include('act.php'); ?>
 <?php
     session_start();
     if(!isset($_SESSION['AdminUser'])) {
         header('Location: index.php');
         die();
     }
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -31,11 +33,21 @@
             <i class="fa fa-bars"></i>
         </a>
     </div>
-	
+
+	<?php if (isset($_SESSION['message'])): ?>
+	<div class="msg">
+		<?php 
+			echo $_SESSION['message']; 
+			unset($_SESSION['message']);
+		?>
+	</div>
+
+<?php endif ?>
    <div class="container">
    <div class="main">
         <div class="content">       
         <div class="tableview">
+        <form method="post" action="act.php" >
         <table class="table" style="position:relative; left:40px; top:20px;">
             <tr>
                 <th colspan="6" style="background-color:black; color:white">
@@ -50,28 +62,29 @@
                 <th>Amount</th>
                 <th>Action</th>
             </tr>
-            <?php //foreach($products as $product) { ?>
             <tr>
                 <td><input style="border-bottom:none;" type="text" name="productcode" placeholder="" value=""></td>
                 <td><input style="border-bottom:none;" type="text" name="productname" placeholder="" value=""></td>
-                <td><input style="border-bottom:none;" type="text" name="price" placeholder="" value=""><?php// echo $product['price'];?></td>
-                <td><input style="border-bottom:none;" type="text" name="quantity" placeholder="" value=""><?php// echo $product['quantity'];?></td>
-                <td><input style="border-bottom:none;" type="text" name="amount" placeholder="" value=""><?php// echo $product['amount'];?></td>
-                <td><a href="product-add?id=<?php //echo $product ['product_code'];?>">
-                        <button id="update">Add</button></a></td>
+                <td><input style="border-bottom:none;" type="text" name="price" placeholder="" value=""></td>
+                <td><input style="border-bottom:none;" type="text" name="quantity" placeholder="" value=""></td>
+                <td><input style="border-bottom:none;" type="text" name="amount" placeholder="" value=""></td>
+                <td><a href="act.php?add=<?php echo $row ['productcode'];?>">
+                        <button id="update" name="add">Add</button></a></td>
             </tr>
             <?php // } ?>
         </table>
+        </form>
     </div>
 
 <div class="tableview">
-        <table class="table" style="position:relative; left:40px; top:20px;">
+        <?php $results = mysqli_query($db, "SELECT * FROM purchase"); ?>    
+        <table class="table" style="position:relative; left:40px; top:20px;">    
             <tr>
                 <th colspan="6" style="background-color:black; color:white">
                     <h2>Purchase Details</h2>
                 </th>
             </tr>
-                      <tr style="background-color:black; color:white">
+            <tr style="background-color:black; color:white">
                 <th>Product Code</th>
                 <th>Product Name</th>
                 <th>Price</th>
@@ -79,20 +92,20 @@
                 <th>Amount</th>
                 <th>Action</th>
             </tr>
-            <?php //foreach($products as $product) { ?>
+            <?php while ($row = mysqli_fetch_array($results)) { ?>
             <tr>
-                <td><?php// echo $product['product_code'];?></td>
-                <td><?php// echo $product['product_name'];?></td>
-                <td><?php// echo $product['price'];?></td>
-                <td><?php// echo $product['quantity'];?></td>
-                <td><?php// echo $product['amount'];?></td>
+                <td><?php echo $row['productcode'];?></td>
+                <td><?php echo $row['productname'];?></td>
+                <td><?php echo $row['price'];?></td>
+                <td><?php echo $row['quantity'];?></td>
+                <td><?php echo $row['total'];?></td>
                 <td>
-                    <form class="form1" action="product-delete?id=<?php //echo $product ['product_code'];?>" method="POST">
+                    <form class="form1" action="act.php?delete=<?php echo $row ['productcode'];?>" method="POST">
                         <input type="submit" name="delete" value="Remove" id="delete">
                     </form>
                 </td>
             </tr>
-            <?php // } ?>
+            <?php  } ?>
         </table>
     </div>
     </div>
@@ -102,15 +115,15 @@
             <h2 style="text-transform: capitalize; color:black;">Payment Details</h2><br>
             <div class="form-group">
                 <label>Total</label>
-                <input class="form-control" type="text" name="Product_code" size="50" value="" autocomplete="off"
+                <input class="form-control" type="text" name="productcode" size="50" value="" autocomplete="off"
                     placeholder="Total" required><br>
 
                 <label>Pay</label>
-                <input class="form-control" type="text" name="Product_name" size="50" value="" autocomplete="off"
+                <input class="form-control" type="text" name="productname" size="50" value="" autocomplete="off"
                     value="" placeholder="Pay" required><br>
 
                 <label>Due</label>
-                <input class="form-control" type="text" name="price" size="50" value="" placeholder="Due" required><br>
+                <input class="form-control" type="text" name="due" size="50" value="" placeholder="Due" required><br>
                 
                 <label>Payment Status</label>
 				<select class="form-control" type="text" name="price" value="" required><br/>
