@@ -15,34 +15,13 @@
 
 .tableview{
     display: inline-block;
-    /*float: left;*/
+    float: left;
     margin-left: 5px;
     width: 100%;
 }
 
-#add{
-  display: inline-block;
-  border: 1px solid white;
-  border-radius: 20px;
-  margin-left: 12px;
-  color: black;
-  padding: 10px 15px;
-  font-size: 14px;
-  cursor: pointer;
-  border-color: #4CAF50;
-}
-table tr td a#add{
-  display: inline-block;
-  border: 1px solid white;
-  border-radius: 20px;
-  margin-left: 12px;
-  color: black;
-  padding: 0px 15px;
-  font-size: 14px;
-  cursor: pointer;
-  border-color: #4CAF50;
-}
-.table tr td a button#update{
+
+.table .btn1 {
   display: inline-block;
   border: 1px solid white;
   background-color: #009E60;
@@ -55,31 +34,24 @@ table tr td a#add{
   cursor: pointer;
   width: 80px;
 }
-.table tr td .form1 input#delete{
-    display: inline-block;
-    border: 1px solid white;
-    background-color: #f44336;
-    border-radius: 20px;
-    margin: 5px;
-    margin-left: 5px;
-    padding: 10px 10px 10px 10px;
-    color: white;
-    font-size: 14px;
-    cursor: pointer;
-    width: 80px;
+
+.table .btn{
+  display: inline-block;
+  border: 1px solid white;
+  background-color: #f51808;
+  border-radius: 20px;
+  margin: 5px;
+  margin-left: 5px;
+  padding: 10px 10px 10px 10px;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  width: 80px;
 }
 
-#update:hover{
+.table tr td a:hover{
   opacity: 0.7;
   cursor: pointer;
-}
-#delete:hover{
-  opacity: 0.7;
-  cursor: pointer;
-}
-
-#add:hover{
-  background-color: #4CAF50;
 }
 
 
@@ -94,14 +66,43 @@ td{
 
 @media(max-width: 736px){
 	.container table {
-  width: 100%;
+  width: 92%;
   margin-left: 0px;
   }
 	
   .tableview{
   display: inline-block;
-  /*float: left;*/
+  float: left;
   margin-left: 0px;
-  width: 100%;
+  width: 92%;
   }
+
+  .table .btn{
+  display: inline-block;
+  border: 1px solid white;
+  background-color: #f51808;
+  border-radius: 20px;
+  margin: 5px;
+
+  padding: 10px 10px 10px 10px;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  width: 40px;
+}
+.table .btn1 {
+  display: inline-block;
+  border: 1px solid white;
+  background-color: #009E60;
+  border-radius: 20px;
+  margin: 5px;
+  
+  padding: 10px 10px 10px 10px;
+  color: white;
+  font-size: 14px;
+  cursor: pointer;
+  width: 40px;
+}
+
+
 }

@@ -1,9 +1,28 @@
 <?php
-    session_start();
+  /*  session_start();
     if(!isset($_SESSION['AdminUser'])) {
         header('Location: index.php');
         die();
+    } */
+?>
+<?php 
+include('customer_process.php');
+if (isset($_GET['edit'])) {
+    $shop_code = $_GET['edit'];
+    $edit_state = true;
+    $rec = mysqli_query($db, "SELECT * FROM customers WHERE shop_code='$shop_code'");
+    // if (!$rec) {
+    //     printf("Error: %s\n", mysqli_error($db));
+    //     exit();
+    // }
+        $record = mysqli_fetch_array($rec);
+        $shop_code = $record['shop_code'];
+        $shop_name = $record['shop_name'];
+        $owner = $record['owner'];
+        $contact = $record['contact'];
+        $address = $record['address'];
     }
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -36,34 +55,44 @@
     <div class="main">
         <div class="content">
                     
-        <form class="form" action="" method="post" style="position:relative; top:15px; ">
+        <form class="form" action="customer_process.php" method="POST" style="position:relative; top:15px; ">
             <h2 style="text-transform: capitalize; color:black;">Add Customer Details</h2><br>
             <div class="form-group">
                 <label>Shop Code</label>
-                <input class="form-control" type="text" name="Product_code" size="50" value="" autocomplete="off"
-                    placeholder="Shop Code" required><br>
+                <input class="form-control" type="text" name="shop_code" size="50" value="<?php echo $shop_code; ?>" required><br>
 
                 <label>Shop Name</label>
-                <input class="form-control" type="text" name="Product_name" size="50" value="" autocomplete="off"
-                    value="" placeholder="Shop Name" required><br>
+                <input class="form-control" type="text" name="shop_name" size="50" value="<?php echo $shop_name; ?>"  required><br>
 
                 <label>Owner name</label>
-                <input class="form-control" type="text" name="price" size="50" value="" placeholder="Owner" required><br>
+                <input class="form-control" type="text" name="owner" size="50" value="<?php echo $owner; ?>" required><br>
                 
                 <label>Contact No</label>
-                <input class="form-control" type="text" name="price" size="50" value="" placeholder="Contact Number" required><br>
+                <input class="form-control" type="text" name="contact" size="50" value="<?php echo $contact; ?>" required><br>
 
                 <label>Address</label>
-                <input class="form-control" type="text" name="price" size="50" value="" placeholder="Address" required><br>
+                <input class="form-control" type="text" name="address" size="50" value="<?php echo $address; ?>" required><br>
             </div>
-            <input class="button" type="submit" name='submit2' value="Submit">
-            <input class="button" type="reset" value="Reset">
+            <?php if ($edit_state == false): ?>
+            <button class="button" type="submit" name='save' value="Save"></button>
+            <?php else: ?>
+            <button class="button" type="submit" name='update' value="Update"></button>
+            <?php endif ?>
         </form>
     </div>
 </div>
 
 
 <div class="tableview">
+<?php if (isset($_SESSION['msg'])): ?>
+	<div class="msg">
+		<?php 
+			echo $_SESSION['msg']; 
+			unset($_SESSION['msg']);
+		?>
+	</div>
+<?php endif ?>
+
         <table class="table">
             <tr>
                 <th colspan="7" style="background-color:black; color:white">
@@ -78,23 +107,18 @@
                 <th>Address</th>
                 <th colspan="2">Actions</th>
             </tr>
-            <?php //foreach($users as $user) { ?>
-            <tr>
-                <td><?php// echo $user['id'];?></td>
-                <td><?php// echo $user['email'];?></td>
-                <td><?php// echo $user['username'];?></td>
-                <td><?php// echo $user['username'];?></td>
-                <td><?php// echo $user['username'];?></td>
-                <td><a href="user-update?id=<?php //echo $user ['id'];?>">
-                        <button id="update">Update</button></a></td>
+            <?php while ($row = mysqli_fetch_array($results)){ ?>
 
-                <td>
-                    <form class="form1" action="user-delete?id=<?php //echo $user ['id'];?>" method="POST">
-                        <input type="submit" name="delete" value="Delete" id="delete">
-                    </form>
-                </td>
+                <tr>
+                <td><?php echo $row['shop_code'];?></td>
+                <td><?php echo $row['shop_name'];?></td>
+                <td><?php echo $row['owner'];?></td>
+                <td><?php echo $row['contact'];?></td>
+                <td><?php echo $row['address'];?></td>
+                <td><a class="btn1" href="customer.php?edit=<?php echo $row['shop_code']; ?>"> Edit</a></td>
+                <td><a class="btn" href="customer_process.php?del=<?php echo $row['shop_code']; ?> "> Delete</a></td>
             </tr>
-            <?php // } ?>
+            <?php } ?>
         </table>
     </div>
 

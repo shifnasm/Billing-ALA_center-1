@@ -1,9 +1,28 @@
 <?php
-    session_start();
-    if(!isset($_SESSION['AdminUser'])) {
-        header('Location: index.php');
-        die();
+    // session_start();
+    // if(!isset($_SESSION['AdminUser'])) {
+    //     header('Location: index.php');
+    //     die();
+    // }
+?>
+
+<?php 
+include('product_process.php');
+if (isset($_GET['edit'])) {
+    $product_code = $_GET['edit'];
+    $edit_state = true;
+    $rec = mysqli_query($db, "SELECT * FROM products WHERE product_code='$product_code'");
+    // if (!$rec) {
+    //     printf("Error: %s\n", mysqli_error($db));
+    //     exit();
+    // }
+        $record = mysqli_fetch_array($rec);
+        $product_code = $record['product_code'];
+        $product_name = $record['product_name'];
+        $unit_price = $record['unit_price'];
+        
     }
+
 ?>
 <!DOCTYPE html>
 <html>
@@ -24,7 +43,7 @@
     <div class="topnav" id="myTopnav">
         <img src="img/logo3.png" style="height:50px; float:left; position:relative; left:20px; top:5px;">
         <a href="logout.php"><i class="fa fa-sign-out" aria-hidden="true"></i> &#8287 Logout</a>
-        <a href="product.php" class="active"><i class="fa fa-shopping-bag" aria-hidden="true"></i> &#8287 Products</a>
+        <a href="product.php" class="active"><i class="fa fa-productping-bag" aria-hidden="true"></i> &#8287 Products</a>
         <a href="customer.php"><i class="fa fa-child" aria-hidden="true"></i> &#8287 Customers</a>
         <a href="home.php"><i class="fa fa-home" aria-hidden="true"></i> &#8287 Home</a>
         <a href="javascript:void(0);" class="icon" onclick="myFunction()">
@@ -36,29 +55,40 @@
     <div class="main">
         <div class="content">
                     
-        <form class="form" action="" method="post" style="position:relative; top:15px; ">
+        <form class="form" action="product_process.php" method="post" style="position:relative; top:15px; ">
             <h2 style="text-transform: capitalize; color:black;">Add Product Details</h2><br>
             <div class="form-group">
                 <label>Product Code</label>
-                <input class="form-control" type="text" name="Product_code" size="50" value="" autocomplete="off"
+                <input class="form-control" type="text" name="product_code" size="50" value="<?php echo $product_code; ?>" autocomplete="off"
                     placeholder="Product Code" required><br>
 
                 <label>Product Name</label>
-                <input class="form-control" type="text" name="Product_name" size="50" value="" autocomplete="off"
+                <input class="form-control" type="text" name="product_name" size="50" value="<?php echo $product_name; ?>" autocomplete="off"
                     value="" placeholder="Product Name" required><br>
 
                 <label>Price</label>
-                <input class="form-control" type="text" name="price" size="50" value="" placeholder="Price"
+                <input class="form-control" type="text" name="unit_price" size="50" value="<?php echo $unit_price; ?>" placeholder="Price"
                     required><br>
             </div>
-            <input class="button" type="submit" name='submit2' value="Submit">
-            <input class="button" type="reset" value="Reset">
+            <?php if ($edit_state == false): ?>
+            <button class="button" type="submit" name='save' value="Save"></button>
+            <?php else: ?>
+            <button class="button" type="submit" name='update' value="Update"></button>
+            <?php endif ?>
         </form>
     </div>
 </div>
 
 
 <div class="tableview">
+    <?php if (isset($_SESSION['msg'])): ?>
+        <div class="msg">
+            <?php 
+                echo $_SESSION['msg']; 
+                unset($_SESSION['msg']);
+            ?>
+        </div>
+    <?php endif ?>
         <table class="table">
             <tr>
                 <th colspan="5" style="background-color:black; color:white">
@@ -71,21 +101,15 @@
                 <th>Price</th>
                 <th colspan="2">Actions</th>
             </tr>
-            <?php //foreach($users as $user) { ?>
+            <?php while ($row = mysqli_fetch_array($results)){ ?>
             <tr>
-                <td><?php// echo $user['id'];?></td>
-                <td><?php// echo $user['email'];?></td>
-                <td><?php// echo $user['username'];?></td>
-                <td><a href="user-update?id=<?php //echo $user ['id'];?>">
-                        <button id="update">Update</button></a></td>
-
-                <td>
-                    <form class="form1" action="user-delete?id=<?php //echo $user ['id'];?>" method="POST">
-                        <input type="submit" name="delete" value="Delete" id="delete">
-                    </form>
-                </td>
+                <td><?php echo $row['product_code'];?></td>
+                <td><?php echo $row['product_name'];?></td>
+                <td><?php echo $row['unit_price'];?></td>
+                <td><a class="btn1" href="product.php?edit=<?php echo $row['product_code']; ?>"> Edit</a></td>
+                <td><a class="btn" href="product_process.php?del=<?php echo $row['product_code']; ?> "> Delete</a></td>
             </tr>
-            <?php // } ?>
+            <?php } ?>
         </table>
     </div>
     </div>

@@ -1,9 +1,9 @@
 
 
 .container{
-	max-width: 1300px;
-	column-count:2;
-	margin: 20px 0;
+	max-width: 1200px;
+	
+	
 }
 
 .container h1{
@@ -23,7 +23,7 @@
 .container .form{
     margin-left: 150px;
     align-self: center;
-    width:100%;
+    width:80%;
     height:60%;
     background:#ffffff;
     border-radius:8px;
@@ -101,9 +101,19 @@
 
 
 @media(max-width: 736px){
+    .container{
+    padding-left: 0;
+    margin-left: 0;
+    
+}
+
 	.container .main{
-		flex-direction: column;
-	}
+	flex-direction: column;
+    padding-left: 0;
+    margin-left: 0;
+    
+    }
+	
 
     .container .form{
     align-self: center;
@@ -131,6 +141,17 @@
         transition: border-color .15s ease-in-out,box-shadow .15s ease-in-out;
     }
 	
-	
+	.container .button {
+    margin: 20px 10px;
+    float: right;
+    width:40%;
+    border-radius: 15px;
+    background-color: black;
+    border: white;
+    color: white;
+    padding: 16px 32px;
+    text-align: center;
+    font-size: 20px;
+ }
 	
 }
