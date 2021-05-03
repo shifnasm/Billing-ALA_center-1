@@ -1,40 +1,69 @@
-<?php
-    session_start();
-    if(!isset($_SESSION['AdminUser'])) {
-        header('Location: index.php');
-        die();
-    }
+<?php 
+include("db.php");
+
+echo $last_id = $_GET['last_id'];
+
+if($_SERVER['REQUEST_METHOD'] == 'POST')
+{
+    $sql = "SELECT i.purchase_id, i.product_code, i.buy_price, i.quantity, i.total, p.date, p.total, p.pay, p.due, pr.product_name
+    FROM purchase p, purchase_item i, products pr WHERE (p.id=i.purchase_id AND pr.product_code=i.product_code AND i.purchase_id= $last_id)";
+
+    $orderResult = $conn->query($sql);
+    $orderdata = $orderResult->fetch_array();
+
+    $purchase_id = $orderdata[0];
+    $product_code = $orderdata[1];
+    $buy_price = $orderdata[2];
+    $quantity = $orderdata[3];
+    $total = $orderdata[4];
+    $date = $orderdata[5];
+    $subtotal = $orderdata[6];
+    $pay = $orderdata[7];
+    $due = $orderdata[8];
+    $product_name = $orderdata[9];
+
 ?>
-<?php  include('act.php'); ?>
+
 <!DOCTYPE html>
 <html>
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Home</title>
+    <title>Invoice</title>
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <link rel="stylesheet" href="style/style.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    <!-- <link rel="stylesheet" href="style/tablestyle.css"> -->
-    <!-- <link rel="stylesheet" href="style/print.css"> -->
+
+    <style>
+        @media print
+        {
+            .button
+            {
+                display:none;
+            }
+        }
+
+        @media print {
+            {
+                 @page 
+                 {
+                     margin-top:0;
+                     margin-bottom:0;
+                 }
+                 body
+                 {
+                     padding-top:72px;
+                     padding-bottom:72px;
+                 }
+            }
+        }
+    </style>
+
 </head>
 
 <body>
-
-    <div class="topnav" id="myTopnav">
-        <img src="img/logo3.png" style="height:50px; float:left; position:relative; left:20px; top:5px;">
-        <a href="logout.php"><i class="fa fa-sign-out" aria-hidden="true"></i> &#8287 Logout</a>
-        <a href="product.php"><i class="fa fa-shopping-bag" aria-hidden="true"></i> &#8287 Products</a>
-        <a href="customer.php"><i class="fa fa-child" aria-hidden="true"></i> &#8287 Customers</a>
-        <a href="home.php" class="active"><i class="fa fa-home" aria-hidden="true"></i> &#8287 Home</a>
-        <a href="javascript:void(0);" class="icon" onclick="myFunction()">
-            <i class="fa fa-bars"></i>
-        </a>
-    </div>
 
     <div class="container">
     <div class="row">
@@ -45,38 +74,18 @@
                 <div align="center">
                     <h3>Purchase Invoice</h3>
                 </div>  
-                <div align="center">
-                    Invoice No <b>101</b>
+                <div align="left">
+                    Date <b><?php echo $date; ?></b>
+                </div>  
+                <div align="right">
+                    Invoice No <b><?php echo $last_id; ?></b>
                 </div>
                 <br/>
-
-                <!-- <?php  
-                // $query = "select * from purchase WHERE productcode = ?";
-                
-                // $stmt = $conn->prepare($query);
-                // $stmt->bind_param("i",$productcode);
-        
-                // if ($stmt->execute()) {
-                //     $result = $stmt->get_result();
-                    
-                //     if ($result->num_rows >0)
-                //     {
-                //         return $result;
-                //     }
-                    
-                // }else{
-                //     $result = 'Error sql';
-                //     return $result;
-                // }
-
-                // if(isset($this->UImsg) and !empty($this->UImsg)){
-					
-				// 	while($row = $this->UImsg->fetch_assoc()){           
-           		 ?> -->
 
                 <table class="table table-responsive">
                     <thead> 
                     <tr>
+                        <td class="text-center"><b>No</b></td>
                         <td class="text-center"><b>Product code</b></td>
                         <td class="text-center"><b>Product name</b></td>
                         <td class="text-center"><b>Price</b></td>
@@ -84,27 +93,72 @@
                         <td class="text-center"><b>Amount</b></td>
                     </tr>
                     </thead>
+
+                    <?php 
+                        $x=1;
+                        $orderResult = $conn->query($sql);
+                        while($row = $orderResult->fetch_array())
+                        {
+                    ?>
                     <tr>
-                        <td class="text-center"><?php //echo $purchase['productcode'];?>001</td>
-                        <td class="text-center"><?php //echo $purchase['productname'];?>Fan</td>
-                        <td class="text-center"><?php //echo $purchase['price'];?>3000</td>
-                        <td class="text-center"><?php //echo $purchase['quantity'];?>10</td>
-                        <td class="text-center"><?php //echo $purchase['amount'];?>30000</td>
+                        <td class="text-center"><?php echo $x; ?></td>
+                        <td class="text-center"><?php echo $row[1]; ?></td>
+                        <td class="text-center"><?php echo $row[9]; ?></td>
+                        <td class="text-center"><?php echo $row[2]; ?></td>
+                        <td class="text-center"><?php echo $row[3]; ?></td>
+                        <td class="text-center"><?php echo $row[4]; ?></td>
                     </tr>
+
+                    <?php $x++; } ?>
                 </table>
                 <div align="right">
-                    Sub Total <b>30000</b>
+                    Sub Total <b><?php echo $subtotal; ?></b>
                 </div>
                 <div align="right">
-                    Pay <b>50000</b>
+                    Pay <b><?php echo $pay; ?></b>
                 </div>
                 <div align="right">
-                    Due <b>20000</b>
+                    Due <b><?php echo $due; ?></b>
                 </div>
             </div>
         </div>
     </div>
     </div>
 
+    <script src="jquery/dist/jquery.js"></script>
+    <script src="jquery/dist/jquery.min.js"></script>
+    <script src="jquery.validation.min.js"></script>
+
+    <script src="bootstrap/dist/js/bootstrap.js"></script>
+    <script src="bootstrap/dist/js/bootstrap.min.js"></script>
+
+    <script src="https://cdn.datatables.net/1.10.19.js/jquery.dataTables.min.js"></script>
+    <!-- <script src="bower_components/jquery.validate.min.js"></script> -->
+    <script src="https:code.jquery.com/jquery-1.12.4.min.js"></script>
+    <script src="jquery-confirm-master.js"></script>
+
+    <script>
+
+    printFunction();
+
+    function printFunction()
+    {
+        window.print();
+    }
+
+    window.onafterprint = function(e)
+    {
+        closePrintView();
+    }
+
+    function closePrintView()
+    {
+        window.location.href = 'home.php';
+    }
+
+    </script>
+
 </body>
 </html>
+
+<?php } ?>

@@ -4,6 +4,7 @@
     $product_code = "";
     $product_name = "";
     $unit_price = "";
+    $quantity = "";
     
     $edit_state = false;
 
@@ -13,8 +14,9 @@
         $product_code = $_POST['product_code'];
         $product_name = $_POST['product_name'];
         $unit_price = $_POST['unit_price'];
+        $quantity =  $_POST['quantity'];
 
-        $query = "INSERT INTO products (product_code, product_name, unit_price) VALUES ('$product_code','$product_name','$unit_price')";
+        $query = "INSERT INTO products (product_code, product_name, unit_price, quantity) VALUES ('$product_code','$product_name','$unit_price', '$quantity')";
         mysqli_query($db, $query);
 
         $_SESSION['msg'] = "New product details added successfully";
@@ -26,8 +28,9 @@
         $product_code = $_POST['product_code'];
         $product_name = $_POST['product_name'];
         $unit_price = $_POST['unit_price'];
+        $quantity =  $_POST['quantity'];
        
-        mysqli_query($db, "UPDATE products SET product_code='$product_code', product_name='$product_name', unit_price='$unit_price' WHERE product_code='$product_code'");
+        mysqli_query($db, "UPDATE products SET product_code='$product_code', product_name='$product_name', unit_price='$unit_price', quantity='$quantity' WHERE product_code='$product_code'");
         $_SESSION['msg'] = "Product Details Updated Successfully";
         header('location: product.php');
     }

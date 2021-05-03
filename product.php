@@ -20,6 +20,7 @@ if (isset($_GET['edit'])) {
         $product_code = $record['product_code'];
         $product_name = $record['product_name'];
         $unit_price = $record['unit_price'];
+        $quantity = $record['quantity'];
         
     }
 
@@ -69,6 +70,10 @@ if (isset($_GET['edit'])) {
                 <label>Price</label>
                 <input class="form-control" type="text" name="unit_price" size="50" value="<?php echo $unit_price; ?>" placeholder="Price"
                     required><br>
+
+                <label>Quantity</label>
+                <input class="form-control" type="text" name="quantity" size="50" value="<?php echo $quantity; ?>" placeholder="Quantity"
+                    required><br>
             </div>
             <?php if ($edit_state == false): ?>
             <button class="button" type="submit" name='save' value="Save"></button>
@@ -91,7 +96,7 @@ if (isset($_GET['edit'])) {
     <?php endif ?>
         <table class="table">
             <tr>
-                <th colspan="5" style="background-color:black; color:white">
+                <th colspan="6" style="background-color:black; color:white">
                     <h2>Product Details</h2>
                 </th>
             </tr>
@@ -99,6 +104,7 @@ if (isset($_GET['edit'])) {
                 <th>Product Code</th>
                 <th>Name</th>
                 <th>Price</th>
+                <th>Quantity</th>
                 <th colspan="2">Actions</th>
             </tr>
             <?php while ($row = mysqli_fetch_array($results)){ ?>
@@ -106,6 +112,7 @@ if (isset($_GET['edit'])) {
                 <td><?php echo $row['product_code'];?></td>
                 <td><?php echo $row['product_name'];?></td>
                 <td><?php echo $row['unit_price'];?></td>
+                <td><?php echo $row['quantity'];?></td>
                 <td><a class="btn1" href="product.php?edit=<?php echo $row['product_code']; ?>"> Edit</a></td>
                 <td><a class="btn" href="product_process.php?del=<?php echo $row['product_code']; ?> "> Delete</a></td>
             </tr>
