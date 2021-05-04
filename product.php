@@ -76,9 +76,9 @@ if (isset($_GET['edit'])) {
                     required><br>
             </div>
             <?php if ($edit_state == false): ?>
-            <button class="button" type="submit" name='save' value="Save"></button>
+            <button class="button" type="submit" name='save' value="Save">Save</button>
             <?php else: ?>
-            <button class="button" type="submit" name='update' value="Update"></button>
+            <button class="button" type="submit" name='update' value="Update">Update</button>
             <?php endif ?>
         </form>
     </div>

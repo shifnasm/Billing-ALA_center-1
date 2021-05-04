@@ -74,9 +74,9 @@ if (isset($_GET['edit'])) {
                 <input class="form-control" type="text" name="address" size="50" value="<?php echo $address; ?>" required><br>
             </div>
             <?php if ($edit_state == false): ?>
-            <button class="button" type="submit" name='save' value="Save"></button>
+            <button class="button" type="submit" name='save' value="Save">Save</button>
             <?php else: ?>
-            <button class="button" type="submit" name='update' value="Update"></button>
+            <button class="button" type="submit" name='update' value="Update">Update</button>
             <?php endif ?>
         </form>
     </div>
