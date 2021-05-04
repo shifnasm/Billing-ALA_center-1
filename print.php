@@ -1,12 +1,12 @@
 <?php 
 include("db.php");
 
-echo $last_id = $_GET['last_id'];
+$last_id = $_GET['last_id'];
 
-if($_SERVER['REQUEST_METHOD'] == 'POST')
+if($_SERVER['REQUEST_METHOD'] == 'GET')
 {
     $sql = "SELECT i.purchase_id, i.product_code, i.buy_price, i.quantity, i.total, p.date, p.total, p.pay, p.due, pr.product_name
-    FROM purchase p, purchase_item i, products pr WHERE (p.id=i.purchase_id AND pr.product_code=i.product_code AND i.purchase_id= $last_id)";
+    FROM purchase p, purchase_item i, products pr WHERE (p.id=i.purchase_id AND pr.product_code=i.product_code AND i.purchase_id=" . $last_id . ")";
 
     $orderResult = $conn->query($sql);
     $orderdata = $orderResult->fetch_array();
@@ -86,7 +86,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
                     <thead> 
                     <tr>
                         <td class="text-center"><b>No</b></td>
-                        <td class="text-center"><b>Product code</b></td>
                         <td class="text-center"><b>Product name</b></td>
                         <td class="text-center"><b>Price</b></td>
                         <td class="text-center"><b>Qty</b></td>
@@ -102,7 +101,6 @@ if($_SERVER['REQUEST_METHOD'] == 'POST')
                     ?>
                     <tr>
                         <td class="text-center"><?php echo $x; ?></td>
-                        <td class="text-center"><?php echo $row[1]; ?></td>
                         <td class="text-center"><?php echo $row[9]; ?></td>
                         <td class="text-center"><?php echo $row[2]; ?></td>
                         <td class="text-center"><?php echo $row[3]; ?></td>

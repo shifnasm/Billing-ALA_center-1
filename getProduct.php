@@ -1,7 +1,7 @@
 <?php 
 include("db.php");
 
-$stmt->$conn->prepare("SELECT product_code, product_name, unit_price FROM products WHERE product_code = ? ORDER BY product_code DESC");
+$stmt = $conn->prepare("SELECT product_code, product_name, unit_price FROM products WHERE product_code = ? ORDER BY product_code DESC");
 $product_code = $_POST["product_code"];
 $stmt->bind_param("s",$product_code);
 
